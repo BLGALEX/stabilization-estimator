@@ -7,6 +7,6 @@ BASE_DIR = Path(
     )
 
 MODEL_PATHES = {
-    'seresnet18': BASE_DIR / 'data/models/seresnet18',
-    'resnet50': BASE_DIR / 'data/models/seresnet18',
+    'seresnet18': BASE_DIR / 'models/seresnet18',
+    'resnet50': BASE_DIR / 'models/seresnet18',
 }
