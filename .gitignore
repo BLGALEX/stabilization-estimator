@@ -131,3 +131,5 @@ dmypy.json
 
 local/
 evs/models
+
+.vscode/

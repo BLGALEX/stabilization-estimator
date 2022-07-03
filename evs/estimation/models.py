@@ -1,6 +1,9 @@
+from classification_models_3D.tfkeras import Classifiers
+from numpy import interp
+import keras
+
 from .settings import MODEL_PATHES
 
-import keras
 
 
 class EstimationModelFactory():
@@ -23,9 +26,17 @@ class EstimationModel():
         return self.model.layers[0].input_shape[0][1:]
 
     def predict(self, batch):
-        batch_proba = self.model.predict_proba(batch)
-        return self.get_estimation(batch_proba)
+        batch_proba = self.model.predict(batch)
+        return self._get_estimates(batch_proba)
 
-    def get_estimation(self, batch_proba):
-        # TODO: сделать расчет оценки
-        return [0]*len(batch_proba)
+    def _get_estimates(self, batch_proba):
+        estimates = []
+        n = len(batch_proba[0])
+        max_estimate = (2*n-1)/(2*n)
+        min_estimate = (1)/(2*n)
+        for proba in batch_proba:
+            sum_ = 0
+            for i, prob in enumerate(proba):
+                sum_ += ((2*(i+1)-1)/(2*n))*prob
+            estimates.append(interp(sum_, [min_estimate, max_estimate], [0, 1]))
+        return estimates
